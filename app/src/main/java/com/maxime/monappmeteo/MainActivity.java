@@ -1,5 +1,6 @@
 package com.maxime.monappmeteo;
 
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -32,12 +33,23 @@ public class MainActivity extends AppCompatActivity {
     private String meteoForcast;
     private Button btnOK;
     private TextView tvDetail;
+    SharedPreferences sharedPreferences;
+    private static final String PREFS="pref";
+    private static final String PREFS_VILLE="pref_ville";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getBaseContext().getSharedPreferences(PREFS, MODE_PRIVATE);
+
+        if (sharedPreferences.contains(PREFS_VILLE)) {
+            villeChoisie = sharedPreferences.getString(PREFS_VILLE, "");
+        }else {
+            villeChoisie = "Lyon";
+        }
 
         listMeteo = findViewById(R.id.listViewMeteo);
         choice=1;
@@ -46,11 +58,11 @@ public class MainActivity extends AppCompatActivity {
         etVille = findViewById(R.id.etVille);
         btnOK = findViewById(R.id.btnOK);
         tvDetail = findViewById(R.id.tvDetail);
-        etVille.setText("Lyon");
+        //etVille.setText("Lyon");
 
         tvDetail.setVisibility(View.INVISIBLE);
 
-        meteoForcast = "http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&units=metrics&APPID=88cb3a32b8e67c872b6161a0ec8fb13a";
+        meteoForcast = "http://api.openweathermap.org/data/2.5/forecast?q=" + villeChoisie + ",fr&units=metrics&APPID=88cb3a32b8e67c872b6161a0ec8fb13a";
 
         try {
             urlWheather = new URL(meteoForcast);
@@ -155,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
             meteoForcast = "http://api.openweathermap.org/data/2.5/forecast?q=Lyon,fr&units=metrics&APPID=88cb3a32b8e67c872b6161a0ec8fb13a";
         } else {
             meteoForcast = "http://api.openweathermap.org/data/2.5/forecast?q=" + villeChoisie + ",fr&units=metrics&APPID=88cb3a32b8e67c872b6161a0ec8fb13a";
+            sharedPreferences.edit().putString(PREFS_VILLE, villeChoisie).apply();
         }
 
         try {
