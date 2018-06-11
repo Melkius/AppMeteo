@@ -101,7 +101,7 @@ public class MyAsynchTask extends AsyncTask<Object,Void,String> {
                             String tempMax = String.valueOf(tempMaxDouble) + " °C";
                             String temp = String.valueOf(((tempMinDouble * 100) + (tempMaxDouble * 100)) / 200) + " °C";
 
-                            JSONObject image = array.getJSONObject(1);
+                            JSONObject image = array.getJSONObject(i);
                             JSONArray arrayImage = image.getJSONArray("weather");
                             String imgStr = arrayImage.getJSONObject(0).getString("icon");
 
@@ -131,7 +131,7 @@ public class MyAsynchTask extends AsyncTask<Object,Void,String> {
                             String tempMax = String.valueOf(tempMaxDouble) + " °C";
                             String temp = String.valueOf(((tempMinDouble * 100) + (tempMaxDouble * 100)) / 200) + " °C";
 
-                            JSONObject image = array.getJSONObject(1);
+                            JSONObject image = array.getJSONObject(i);
                             JSONArray arrayImage = image.getJSONArray("weather");
                             String imgStr = arrayImage.getJSONObject(0).getString("icon");
 
